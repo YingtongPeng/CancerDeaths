@@ -1,1 +1,77 @@
 # Missing values
+
+```{r}
+## Missing value by row
+attach(dat)
+datnew<- dat%>%
+  mutate(`Mortality-Incidence Age-Adjusted Rate Ratio`=ifelse(`Mortality-Incidence Age-Adjusted Rate Ratio`=="Not Applicable",NA,`Mortality-Incidence Age-Adjusted Rate Ratio`))
+rowSums(is.na(datnew)) %>%
+  sort(decreasing = TRUE) %>%
+  head(n=10)
+datnew$`Mortality-Incidence Age-Adjusted Rate Ratio`=as.numeric(datnew$`Mortality-Incidence Age-Adjusted Rate Ratio`)
+```
+
+Since in our data, there is only one variable contains NA(Mortality-Incidence Age-Adjusted Rate Ratio), the output of the rowsum of NA is 1.
+
+```{r}
+## Missing value by column
+colSums(is.na(datnew)) %>%
+  sort(decreasing = TRUE)
+```
+
+There are 2429 NAs in Mortality-Incidence Age-Adjusted Rate Ratio.
+
+
+```{r}
+cancer<- datnew %>%
+  select(`Leading Cancer Sites`, Sex, `Mortality-Incidence Age-Adjusted Rate Ratio`) %>%
+    gather(key, value, -`Leading Cancer Sites`, -Sex) %>% 
+    mutate(missing = ifelse(is.na(value), "yes", "no"))
+g1<-ggplot(cancer, aes(x = key, y = fct_rev(`Leading Cancer Sites`), fill = missing)) +
+  geom_tile(color = "white") + 
+  ggtitle("datnew with NAs") +
+  scale_fill_viridis_d() + # discrete scale
+  theme_bw()
+g1
+```
+From the above plot, it can be seen that the only Leading Cancer Sites(the part of body which has cancer) is Gallbladder.
+
+```{r}
+g2<-ggplot(cancer, aes(x = key, y = fct_rev(`Sex`), fill = missing)) +
+  geom_tile(color = "white") + 
+  ggtitle("datnew with NAs") +
+  scale_fill_viridis_d() + # discrete scale
+  theme_bw()
+g2
+```
+
+```{r}
+g3<-ggplot(cancer, aes(x = key, y = fct_rev(`Race`), fill = missing)) +
+  geom_tile(color = "white") + 
+  ggtitle("datnew with NAs") +
+  scale_fill_viridis_d() + # discrete scale
+  theme_bw()
+g3
+
+```
+
+From the above plot, it can be seen that the regarding the race, only Other Races and Unknown combined has missing values.
+```{r}
+g4<-ggplot(cancer, aes(x = key, y = fct_rev(`Region`), fill = missing)) +
+  geom_tile(color = "white") + 
+  ggtitle("datnew with NAs") +
+  scale_fill_viridis_d() + # discrete scale
+  theme_bw()
+g4
+```
+
+```{r}
+## Missing pattern by value
+library(redav)
+plot_missing(datnew,percent=F)
+```
+
+From the above plots, it can be seen that there are two missing patterns. There is just one variable contains pattern 2, that is Mortality-Incidence Age-Adjusted Rate Ratio. The number of rows does not contain missing values is greater than 7500, which almost three times of the number of rows contain NA.
+
+In our data, there is only one variable that contains missing values–Mortality-Incidence Age-Adjusted Rate Ratio. I think since one of our project question uses it as the response variable, we can set the missing values in this variable to zero. Since the death count in this case is zero. If we just remove the missing values, it can impact our analysis because there are around 2000 missing values, which is one fifth of our data.
+
