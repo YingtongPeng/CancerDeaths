@@ -6,4 +6,6 @@ site: bookdown::bookdown_site
 ---
 
 # Introduction
+Our data comes from CDC. We got this data using a request form we filled. This data contains some information about leading cancer sites, mortality-incidence rate which is age-adjusted, and patients personal information such as sex, race, region, year of diagnosis. We chose this data because we are interested in health problems and this data is appropriate to apply visual analysis.
+
 
