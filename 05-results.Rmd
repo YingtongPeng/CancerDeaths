@@ -1,1 +1,147 @@
 # Results
+```{r}
+library(tidyverse)
+##replace NAs by zeros
+datrna <- datnew %>%
+  mutate(`Mortality-Incidence Age-Adjusted Rate Ratio` = replace_na(`Mortality-Incidence Age-Adjusted Rate Ratio`,0))
+```
+
+```{r}
+datic <- datrna %>%
+  mutate(`Incidence Counts` = ifelse(`Incidence Counts`<500, "< 500", ifelse(`Incidence Counts` >= 500&`Incidence Counts`<1000, "500-1000", ifelse(`Incidence Counts` >= 1000&`Incidence Counts`<1500, "1000-1500", ifelse(`Incidence Counts` >= 1500&`Incidence Counts`<2000, "1500-2000", "> 2000")))))
+head(datic)
+```
+
+```{r}
+attach(datic)
+library(vcd)
+library(RColorBrewer)
+colors <- brewer.pal(5, "Set2")
+ic = fct_rev(datic$`Incidence Counts`)
+lcs = datic$`Leading Cancer Sites`
+mosaic(ic ~ lcs, dat = datic, direction = c("v", "h"), highlighting_fill = colors,
+       rot_labels = 0, tl_labels = FALSE)
+```
+
+```{r}
+mosaic(ic ~ Sex, data = datic, direction = c("v", "h"), highlighting_fill = colors,
+       rot_labels = 0, tl_labels = FALSE)
+```
+
+```{r}
+datic <- datic %>%
+  mutate(Race = case_when(grepl("Black",Race) ~ "Black",
+                          grepl("Asian",Race) ~ "Asian",
+                          grepl("White",Race) ~ "White",
+                          grepl("Indian",Race) ~ "Indian",
+                          grepl("Other",Race) ~ "Other"))
+mosaic(ic ~ Race, data = datic, direction = c("v", "h"), highlighting_fill = colors,
+       rot_labels = 0, tl_labels = FALSE)
+```
+```{r}
+mosaic(ic ~ Region, data = datic, direction = c("v", "h"), highlighting_fill = colors,
+       rot_labels = 0, tl_labels = FALSE)
+```
+Race seems to have the strongest association with Incidence counts.
+
+```{r}
+counts1 <- datrna %>%
+  group_by(`Leading Cancer Sites`) %>%
+  dplyr::summarize(Freq = sum(`Incidence Counts`)) %>%
+  arrange(desc(Freq))
+counts1
+```
+### Q2.
+```{r}
+library(ggplot2)
+breast <- datic %>%
+  filter(`Leading Cancer Sites` == "Breast") %>%
+  mutate(Year = ifelse(Year <= 2002, "1999-2002", ifelse(Year > 2002 & Year<=2006, "2002-2006", ifelse(Year > 2006 & Year<=2010, "2006-2010", ifelse(Year > 2010 & Year<=2014, "2010-2014", "2014-2018")))))
+
+ggplot(liver, aes(Sex, `Mortality-Incidence Age-Adjusted Rate Ratio`)) +
+  geom_boxplot() + coord_flip() +
+  theme_grey(16)
+```
+
+```{r}
+library(ggridges)
+ggplot(breast,aes(`Mortality-Incidence Age-Adjusted Rate Ratio`, Sex)) +
+  geom_density_ridges(fill = "cornflowerblue", alpha = .5, scale = 1) +
+  ylab("")
+```
+
+
+```{r}
+breastsex <- breast %>%
+  group_by(Sex, Year) %>%
+  dplyr::summarize(rate = mean(`Mortality-Incidence Age-Adjusted Rate Ratio`, na.rm = TRUE))
+ggplot(breastsex, aes(Sex, rate)) +
+  geom_col() +
+  xlab("Gender") +
+  facet_wrap(~Year)
+```
+
+
+
+```{r}
+top_cancer <- datrna %>% 
+  group_by(`Leading Cancer Sites`) %>% 
+  summarize(rate = mean(`Mortality-Incidence Age-Adjusted Rate Ratio`, na.rm = TRUE)) %>% 
+  slice_max(n = 12, order_by = rate) %>%
+  pull(`Leading Cancer Sites`)
+top_cancer
+```
+
+```{r}
+datrna %>%
+  filter(`Leading Cancer Sites` %in% top_cancer) %>%
+  dplyr::select(`Leading Cancer Sites`, `Mortality-Incidence Age-Adjusted Rate Ratio`) %>%
+  group_by(`Leading Cancer Sites`) %>% 
+  summarize(rate = mean(`Mortality-Incidence Age-Adjusted Rate Ratio`, na.rm = TRUE)) %>%
+  ungroup() %>%
+  ggplot(aes(rate, reorder(`Leading Cancer Sites`, rate))) +
+  geom_point() +
+  ggtitle("Top 12 of Leading Cancer Sites by mean motality ratio") +
+  labs(x='mean motality ratio', y='Leading Cancer Sites') +
+  theme_bw()
+```
+```{r}
+dftop <- datrna %>%
+  filter(`Leading Cancer Sites` %in% top_cancer) %>%
+  dplyr::select(Year, `Leading Cancer Sites`, `Mortality-Incidence Age-Adjusted Rate Ratio`) %>%
+  mutate(Year = ifelse(Year <= 2002, "1999-2002", ifelse(Year > 2002 & Year<=2006, "2002-2006", ifelse(Year > 2006 & Year<=2010, "2006-2010", ifelse(Year > 2010 & Year<=2014, "2010-2014", "2014-2018"))))) %>%
+  group_by(`Leading Cancer Sites`, Year) %>% 
+  summarize(rate = mean(`Mortality-Incidence Age-Adjusted Rate Ratio`, na.rm = TRUE)) %>% 
+  mutate(rate = ifelse(rate < 0.4, "Low", ifelse(rate >= 0.4&rate<0.6, "Medium", "High")))
+head(dftop)
+```
+
+```{r}
+library(ggalluvial)
+
+ggplot(dftop, aes(x = Year, y = 1, stratum = rate, alluvium = `Leading Cancer Sites` , label = rate)) +
+  geom_alluvium(color = "grey50") +
+  geom_stratum(aes(fill = rate), alpha = .4, color = NA) +
+  geom_text(stat = "stratum", aes(label = after_stat(stratum)), size = 3) +
+  geom_text(stat = "alluvium", aes(label = ifelse(Year == "1999-2002", `Leading Cancer Sites`, NA)), size = 2.5,
+            hjust = "outward", nudge_x = -.10) +
+  geom_text(stat = "alluvium", aes(label = ifelse(Year == "2014-2018", `Leading Cancer Sites`, NA)), size = 2.5,
+            hjust = "outward", nudge_x = .10) +
+  scale_y_reverse(breaks = NULL) +
+  scale_fill_manual(values = colors, guide = guide_legend(reverse = FALSE)) +
+  xlab("") +
+  ylab("Leading Cancer Sites") +
+  theme_bw()
+```
+
+```{r}
+ggplot(dftop, aes(Year, `Leading Cancer Sites`,fill = rate)) +
+  geom_tile(color = "white", lwd = .25) +
+  coord_fixed() +
+  scale_fill_manual(values = colors) +
+  ylab("Leading Cancer Sites") +
+  theme_classic() +
+  theme(legend.position = "bottom") + 
+  coord_fixed(ratio=0.3)
+```
+
