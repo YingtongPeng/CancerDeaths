@@ -3,11 +3,11 @@
 ## Missing value by row
 attach(dat)
 datnew<- dat%>%
-  mutate(`Mortality-Incidence Age-Adjusted Rate Ratio`=ifelse(`Mortality-Incidence Age-Adjusted Rate Ratio`=="Not Applicable",NA,`Mortality-Incidence Age-Adjusted Rate Ratio`))
+  mutate(`Mortality-Incidence Age-Adjusted Rate Ratio`=ifelse(`Mortality-Incidence Age-Adjusted Rate Ratio`=="Not Applicable",NA,`Mortality-Incidence Age-Adjusted Rate Ratio`)) 
 rowSums(is.na(datnew)) %>%
   sort(decreasing = TRUE) %>%
   head(n=10)
-datnew$`Mortality-Incidence Age-Adjusted Rate Ratio`=as.numeric(datnew$`Mortality-Incidence Age-Adjusted Rate Ratio`)
+
 ```
 
 Since in our data, there is only one variable contains NA(Mortality-Incidence Age-Adjusted Rate Ratio), the output of the rowsum of NA is 1.

@@ -1,6 +1,6 @@
 # Results
 
-
+## 1.
 ```{r}
 library(tidyverse)
 ##replace NAs by zeros
