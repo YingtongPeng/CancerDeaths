@@ -1,5 +1,4 @@
 # Missing values
-
 ```{r}
 ## Missing value by row
 attach(dat)

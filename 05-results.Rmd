@@ -1,18 +1,12 @@
 # Results
-```{r}
-library(tidyverse)
-datnew<- dat%>%
-  mutate(`Mortality-Incidence Age-Adjusted Rate Ratio`=ifelse(`Mortality-Incidence Age-Adjusted Rate Ratio`=="Not Applicable",NA,`Mortality-Incidence Age-Adjusted Rate Ratio`))
-rowSums(is.na(datnew)) %>%
-  sort(decreasing = TRUE) %>%
-  head(n=10)
-datnew$`Mortality-Incidence Age-Adjusted Rate Ratio`=as.numeric(datnew$`Mortality-Incidence Age-Adjusted Rate Ratio`)
-```
+
 
 ```{r}
+library(tidyverse)
 ##replace NAs by zeros
-datrna <- datnew %>%
-  mutate(`Mortality-Incidence Age-Adjusted Rate Ratio` = replace_na(`Mortality-Incidence Age-Adjusted Rate Ratio`,0))
+datrna <- dat%>%
+  mutate(`Mortality-Incidence Age-Adjusted Rate Ratio`=ifelse(`Mortality-Incidence Age-Adjusted Rate Ratio`=="Not Applicable",0,`Mortality-Incidence Age-Adjusted Rate Ratio`))  %>%
+   mutate(`Mortality-Incidence Age-Adjusted Rate Ratio`=as.numeric(`Mortality-Incidence Age-Adjusted Rate Ratio`))
 ```
 
 ```{r}
