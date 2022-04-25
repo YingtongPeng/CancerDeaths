@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 Data transformation | Cancer Deaths Rate Research</title>
   <meta name="description" content="Chapter 3 Data transformation | Cancer Deaths Rate Research" />
-  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 Data transformation | Cancer Deaths Rate Research" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Yingtong Peng and Xiaoran Hu" />
 
 
-<meta name="date" content="2022-03-31" />
+<meta name="date" content="2022-04-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -72,13 +72,16 @@
 <li><a href="./">CancerDeaths</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction<span></span></a></li>
-<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources<span></span></a></li>
-<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation<span></span></a></li>
-<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values<span></span></a></li>
-<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results<span></span></a></li>
-<li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component<span></span></a></li>
-<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion<span></span></a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a></li>
+<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
+<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a>
+<ul>
+<li class="chapter" data-level="5.0.1" data-path="results.html"><a href="results.html#q2."><i class="fa fa-check"></i><b>5.0.1</b> Q2.</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -100,6 +103,44 @@
             <section class="normal" id="section-">
 <div id="data-transformation" class="section level1 hasAnchor" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Data transformation<a href="data-transformation.html#data-transformation" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>This data contains both the data and metadata. We can separate them into two data frames, one for data and the other one for metadata and store them separately.
+Here is our data:</p>
+<pre><code>## # A tibble: 6 x 13
+##   `Leading Cancer Si~` `Leading Cance~`  Year `Year Code` Sex   `Sex Code` Race 
+##   &lt;chr&gt;                &lt;chr&gt;            &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;
+## 1 Brain and Other Ner~ 31010-31040       1999        1999 Fema~ F          Asia~
+## 2 Brain and Other Ner~ 31010-31040       1999        1999 Fema~ F          Blac~
+## 3 Brain and Other Ner~ 31010-31040       1999        1999 Fema~ F          Blac~
+## 4 Brain and Other Ner~ 31010-31040       1999        1999 Fema~ F          Blac~
+## 5 Brain and Other Ner~ 31010-31040       1999        1999 Fema~ F          Blac~
+## 6 Brain and Other Ner~ 31010-31040       1999        1999 Fema~ F          White
+## # ... with 6 more variables: `Race Code` &lt;chr&gt;, Region &lt;chr&gt;,
+## #   `Region Code` &lt;chr&gt;, `Mortality-Incidence Age-Adjusted Rate Ratio` &lt;chr&gt;,
+## #   `Death Counts` &lt;dbl&gt;, `Incidence Counts` &lt;dbl&gt;</code></pre>
+<p>The metadata is following:</p>
+<pre><code>## # A tibble: 20 x 1
+##    Notes                                                                        
+##    &lt;chr&gt;                                                                        
+##  1 ---                                                                          
+##  2 Dataset: United States and Puerto Rico Cancer Statistics, 1999-2018 Mortalit~
+##  3 Query Parameters:                                                            
+##  4 Leading Cancer Sites: All Leading Sites                                      
+##  5 Group By: Leading Cancer Sites; Year; Sex; Race; Region                      
+##  6 Show Totals: Disabled                                                        
+##  7 Show Zero Values: False                                                      
+##  8 Show Suppressed: False                                                       
+##  9 Calculate Rates Per: 100,000                                                 
+## 10 Standard Population: 2000 U.S. Std. Million                                  
+## 11 ---                                                                          
+## 12 Help: See http://wonder.cdc.gov/wonder/help/CancerMIR-v2018.html for more in~
+## 13 ---                                                                          
+## 14 Query Date: Mar 9, 2022 1:54:05 PM                                           
+## 15 ---                                                                          
+## 16 Suggested Citation: United States Cancer Statistics - Mortality Incidence Ra~
+## 17 United States Department of Health and Human Services, Centers for Disease C~
+## 18 2021. Accessed at http://wonder.cdc.gov/CancerMIR-v2018.html on Mar 9, 2022 ~
+## 19 ---                                                                          
+## 20 Messages:</code></pre>
 
 </div>
             </section>

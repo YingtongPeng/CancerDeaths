@@ -1,6 +1,7 @@
 # Data transformation
 
 This data contains both the data and metadata. We can separate them into two data frames, one for data and the other one for metadata and store them separately.
+Here is our data:
 ```{r}
 library(tidyverse)
 cancer<-read_tsv("United States and Puerto Rico Cancer Statistics, 1999-2018 Mortality Incidence Rate Ratios.txt")
@@ -10,6 +11,7 @@ head(dat)
 
 ```
 
+The metadata is following:
 ```{r}
 notes <- cancer |> 
   dplyr::filter(!is.na(Notes)) |> 

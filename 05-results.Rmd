@@ -58,7 +58,7 @@ breast <- datic %>%
   filter(`Leading Cancer Sites` == "Breast") %>%
   mutate(Year = ifelse(Year <= 2002, "1999-2002", ifelse(Year > 2002 & Year<=2006, "2002-2006", ifelse(Year > 2006 & Year<=2010, "2006-2010", ifelse(Year > 2010 & Year<=2014, "2010-2014", "2014-2018")))))
 
-ggplot(liver, aes(Sex, `Mortality-Incidence Age-Adjusted Rate Ratio`)) +
+ggplot(breast, aes(Sex, `Mortality-Incidence Age-Adjusted Rate Ratio`)) +
   geom_boxplot() + coord_flip() +
   theme_grey(16)
 ```
