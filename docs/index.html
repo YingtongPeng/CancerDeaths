@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Cancer Deaths Rate Research</title>
   <meta name="description" content="Cancer Deaths Rate Research" />
-  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Cancer Deaths Rate Research" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Yingtong Peng and Xiaoran Hu" />
 
 
-<meta name="date" content="2022-03-31" />
+<meta name="date" content="2022-04-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -72,13 +72,16 @@
 <li><a href="./">CancerDeaths</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction<span></span></a></li>
-<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources<span></span></a></li>
-<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation<span></span></a></li>
-<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values<span></span></a></li>
-<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results<span></span></a></li>
-<li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component<span></span></a></li>
-<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion<span></span></a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a></li>
+<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
+<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a>
+<ul>
+<li class="chapter" data-level="5.0.1" data-path="results.html"><a href="results.html#q2."><i class="fa fa-check"></i><b>5.0.1</b> Q2.</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -101,10 +104,11 @@
 <div id="header">
 <h1 class="title">Cancer Deaths Rate Research</h1>
 <p class="author"><em>Yingtong Peng and Xiaoran Hu</em></p>
-<p class="date"><em>2022-03-31</em></p>
+<p class="date"><em>2022-04-25</em></p>
 </div>
 <div id="introduction" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction<a href="index.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>This data is chosen because we are concerned about health problems, especially cancer. In the United States, more than 1.6 million of people are diagnosed with cancer each year, around 600000 people die because of cancer. Cancer has been regarded as the second leading cause of death. Thus, what effects cancer death rate becomes an important topic for researchers. In this project, the relationship between potential factors and cancer deaths is studied. The three main questions we are interested in are: 1. What are the variables that have relationship with cancer incidence counts? The potential variables we want to study are leading cancer site, sex, race and region. 2. For a certain cancer, does gender has an effect for this cancer? We focus on breast cancer, as NCI stated that some new studies suggested men may be more likely than women to die after being diagnosed with breast cancer, particularly during the first 5 years after diagnosis(<a href="https://www.cancer.gov/news-events/cancer-currents-blog/2019/male-breast-cancer-higher-mortality" class="uri">https://www.cancer.gov/news-events/cancer-currents-blog/2019/male-breast-cancer-higher-mortality</a>), we assume that gender effect the incidence counts for breast cancer. We want to check this assumption. 3. Does the death rate change with the increasing year of diagnosis? Due to the development of medical techniques, the death rate may decrease with the increasing year of diagnosis. Whether this assumption is correct needs to be checked.</p>
 
 </div>
             </section>
