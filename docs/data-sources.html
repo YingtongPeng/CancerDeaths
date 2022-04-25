@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 2 Data sources | Cancer Deaths Rate Research</title>
   <meta name="description" content="Chapter 2 Data sources | Cancer Deaths Rate Research" />
-  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 Data sources | Cancer Deaths Rate Research" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Yingtong Peng and Xiaoran Hu" />
 
 
-<meta name="date" content="2022-03-31" />
+<meta name="date" content="2022-04-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -72,13 +72,16 @@
 <li><a href="./">CancerDeaths</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction<span></span></a></li>
-<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources<span></span></a></li>
-<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation<span></span></a></li>
-<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values<span></span></a></li>
-<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results<span></span></a></li>
-<li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component<span></span></a></li>
-<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion<span></span></a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a></li>
+<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
+<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
+<li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a>
+<ul>
+<li class="chapter" data-level="5.0.1" data-path="results.html"><a href="results.html#q2."><i class="fa fa-check"></i><b>5.0.1</b> Q2.</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -100,6 +103,9 @@
             <section class="normal" id="section-">
 <div id="data-sources" class="section level1 hasAnchor" number="2">
 <h1><span class="header-section-number">Chapter 2</span> Data sources<a href="data-sources.html#data-sources" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The data comes from the Centers for Disease Control and Prevention (CDC) and the link to the data is <a href="https://wonder.cdc.gov/cancer.html" class="uri">https://wonder.cdc.gov/cancer.html</a>. The data was from The United States Cancer Statistics (USCS) which are the official federal statistics on cancer incidence from registries having high-quality data and cancer mortality statistics for 50 states and the District of Columbia. And USCS are produced by CDC and the National Cancer Institute (NCI). All of USCS contributors and partners are responsible for collecting this data. Since our data contains incidence data and mortality data, the incidence data are provided by The Centers for Disease Control and Prevention National Program of Cancer Registries (NPCR), The National Cancer Institute Surveillance, Epidemiology and End Results (SEER) program, and The Centers for Disease Control and Prevention National Vital Statistics System (NVSS). Cancer mortality data for deaths after 2018 are available from NVSS. There are several choices to request a data form, firstly we choose group results by leading cancer sites and by year, sex, race, and region, then choose measures to contain death counts and incidence counts. Secondly, we select locations by state. Finally, we choose data to contain all year, sex, race, and region.</p>
+<p>This data contains some information about leading cancer sites, mortality-incidence rate which is age-adjusted, and patients’ personal information such as sex, race, region, and year of diagnosis. Among our dataset, Leading Cancer Sites, Year, Sex, Race, Region are categorical variables, and Mortality-Incidence Age-Adjusted Rate Ratio, Death Counts, Incidence Counts are continuous variables. The data contains 11264 observations.</p>
+<p>Interestingly, we find that the death counts in some observations are 0, which means that no death in that observation, resulting in the morality-incidence rate ratio being not applicable.</p>
 
 </div>
             </section>
