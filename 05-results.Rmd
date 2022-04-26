@@ -9,6 +9,10 @@ datrna <- dat%>%
    mutate(`Mortality-Incidence Age-Adjusted Rate Ratio`=as.numeric(`Mortality-Incidence Age-Adjusted Rate Ratio`))
 ```
 
+
+
+
+
 ```{r}
 datic <- datrna %>%
   mutate(`Incidence Counts` = ifelse(`Incidence Counts`<500, "< 500", ifelse(`Incidence Counts` >= 500&`Incidence Counts`<1000, "500-1000", ifelse(`Incidence Counts` >= 1000&`Incidence Counts`<1500, "1000-1500", ifelse(`Incidence Counts` >= 1500&`Incidence Counts`<2000, "1500-2000", "> 2000")))))
@@ -94,6 +98,20 @@ top_cancer <- datrna %>%
   pull(`Leading Cancer Sites`)
 top_cancer
 ```
+
+
+```{r}
+library(ggrepel)
+datid = datrna %>%
+  group_by(`Leading Cancer Sites`) %>%
+  summarize(mean_incidence = mean(`Incidence Counts`), mean_death = mean(`Death Counts`))
+g1 = ggplot(datid, aes(mean_incidence, mean_death, label = `Leading Cancer Sites`)) +
+  geom_point() +
+  geom_text_repel() +
+  theme_grey(14)
+g1
+```
+
 
 ```{r}
 datrna %>%
