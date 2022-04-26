@@ -22,11 +22,11 @@ There are 2429 NAs in Mortality-Incidence Age-Adjusted Rate Ratio.
 
 
 ```{r}
-cancer<- datnew %>%
+cancers<- datnew %>%
   select(`Leading Cancer Sites`, Sex, `Mortality-Incidence Age-Adjusted Rate Ratio`) %>%
     gather(key, value, -`Leading Cancer Sites`, -Sex) %>% 
     mutate(missing = ifelse(is.na(value), "yes", "no"))
-g1<-ggplot(cancer, aes(x = key, y = fct_rev(`Leading Cancer Sites`), fill = missing)) +
+g1<-ggplot(cancers, aes(x = key, y = fct_rev(`Leading Cancer Sites`), fill = missing)) +
   geom_tile(color = "white") + 
   ggtitle("datnew with NAs") +
   scale_fill_viridis_d() + # discrete scale
@@ -36,7 +36,7 @@ g1
 From the above plot, it can be seen that the only Leading Cancer Sites(the part of body which has cancer) is Gallbladder.
 
 ```{r}
-g2<-ggplot(cancer, aes(x = key, y = fct_rev(`Sex`), fill = missing)) +
+g2<-ggplot(cancers, aes(x = key, y = fct_rev(`Sex`), fill = missing)) +
   geom_tile(color = "white") + 
   ggtitle("datnew with NAs") +
   scale_fill_viridis_d() + # discrete scale
@@ -45,7 +45,7 @@ g2
 ```
 
 ```{r}
-g3<-ggplot(cancer, aes(x = key, y = fct_rev(`Race`), fill = missing)) +
+g3<-ggplot(cancers, aes(x = key, y = fct_rev(`Race`), fill = missing)) +
   geom_tile(color = "white") + 
   ggtitle("datnew with NAs") +
   scale_fill_viridis_d() + # discrete scale
@@ -56,7 +56,7 @@ g3
 
 From the above plot, it can be seen that the regarding the race, only Other Races and Unknown combined has missing values.
 ```{r}
-g4<-ggplot(cancer, aes(x = key, y = fct_rev(`Region`), fill = missing)) +
+g4<-ggplot(cancers, aes(x = key, y = fct_rev(`Region`), fill = missing)) +
   geom_tile(color = "white") + 
   ggtitle("datnew with NAs") +
   scale_fill_viridis_d() + # discrete scale
