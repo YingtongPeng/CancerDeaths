@@ -23,7 +23,7 @@
 <meta name="author" content="Yingtong Peng and Xiaoran Hu" />
 
 
-<meta name="date" content="2022-04-26" />
+<meta name="date" content="2022-05-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -78,10 +78,9 @@
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#section"><i class="fa fa-check"></i><b>5.1</b> 1.</a>
-<ul>
-<li class="chapter" data-level="5.1.1" data-path="results.html"><a href="results.html#q2."><i class="fa fa-check"></i><b>5.1.1</b> Q2.</a></li>
-</ul></li>
+<li class="chapter" data-level="5.1" data-path="results.html"><a href="results.html#variables-that-have-relationship-with-cancer-incidence-counts."><i class="fa fa-check"></i><b>5.1</b> Variables that have relationship with cancer incidence counts.</a></li>
+<li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#the-relationship-between-gender-and-breast-cancer."><i class="fa fa-check"></i><b>5.2</b> The relationship between gender and breast cancer.</a></li>
+<li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#the-change-of-death-rate-with-the-increasing-year-of-diagnosis-of-top-12-leading-cancer-sites."><i class="fa fa-check"></i><b>5.3</b> The change of death rate with the increasing year of diagnosis of top 12 Leading Cancer Sites.</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
 <li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
@@ -106,8 +105,11 @@
             <section class="normal" id="section-">
 <div id="missing-values" class="section level1 hasAnchor" number="4">
 <h1><span class="header-section-number">Chapter 4</span> Missing values<a href="missing-values.html#missing-values" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>We can observe missing value from many different aspects.
+First of all, the missing values of top 10 rows is following:</p>
 <pre><code>##  [1] 1 1 1 1 1 1 1 1 1 1</code></pre>
-<p>Since in our data, there is only one variable contains NA(Mortality-Incidence Age-Adjusted Rate Ratio), the output of the rowsum of NA is 1.</p>
+<p>Since in our data, there is only one variable contains NA(Mortality-Incidence Age-Adjusted Rate Ratio), the output of the row sum of NA is 1.</p>
+<p>The missing values by column is following:</p>
 <pre><code>## Mortality-Incidence Age-Adjusted Rate Ratio 
 ##                                        2341 
 ##                        Leading Cancer Sites 
@@ -135,12 +137,14 @@
 ##                            Incidence Counts 
 ##                                           0</code></pre>
 <p>There are 2429 NAs in Mortality-Incidence Age-Adjusted Rate Ratio.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-9-1.png" width="672" />
-From the above plot, it can be seen that the only Leading Cancer Sites(the part of body which has cancer) is Gallbladder.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>From the above plot, it can be seen that the only one type of Leading Cancer Sites(the part of body which has cancer) that does not have missing value is Gallbladder, and all other types have missing values.</p>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>From the above plot, it can be seen that both male and female have missing value.</p>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<p>From the above plot, it can be seen that the regarding the race, only Other Races and Unknown combined has missing values.
-<img src="finalproj_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>From the above plot, it can be seen that the regarding the race, only Other Races and Unknown combined has missing values.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+From the above region plot we can find that all types of regions have missing values.</p>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>From the above plots, it can be seen that there are two missing patterns. There is just one variable contains pattern 2, that is Mortality-Incidence Age-Adjusted Rate Ratio. The number of rows does not contain missing values is greater than 7500, which almost three times of the number of rows contain NA.</p>
 <p>In our data, there is only one variable that contains missing values–Mortality-Incidence Age-Adjusted Rate Ratio. I think since one of our project question uses it as the response variable, we can set the missing values in this variable to zero. Since the death count in this case is zero. If we just remove the missing values, it can impact our analysis because there are around 2000 missing values, which is one fifth of our data.</p>

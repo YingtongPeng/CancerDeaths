@@ -3,7 +3,8 @@ data-sources
 data-transformation
 missing-values
 results
-section
-q2.
+variables-that-have-relationship-with-cancer-incidence-counts.
+the-relationship-between-gender-and-breast-cancer.
+the-change-of-death-rate-with-the-increasing-year-of-diagnosis-of-top-12-leading-cancer-sites.
 interactive-component
 conclusion

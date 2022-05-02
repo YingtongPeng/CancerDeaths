@@ -1,4 +1,7 @@
 # Missing values
+
+We can observe missing value from many different aspects.
+First of all, the missing values of top 10 rows is following:
 ```{r}
 ## Missing value by row
 attach(dat)
@@ -10,8 +13,9 @@ rowSums(is.na(datnew)) %>%
 
 ```
 
-Since in our data, there is only one variable contains NA(Mortality-Incidence Age-Adjusted Rate Ratio), the output of the rowsum of NA is 1.
+Since in our data, there is only one variable contains NA(Mortality-Incidence Age-Adjusted Rate Ratio), the output of the row sum of NA is 1.
 
+The missing values by column is following:
 ```{r}
 ## Missing value by column
 colSums(is.na(datnew)) %>%
@@ -28,26 +32,29 @@ cancers<- datnew %>%
     mutate(missing = ifelse(is.na(value), "yes", "no"))
 g1<-ggplot(cancers, aes(x = key, y = fct_rev(`Leading Cancer Sites`), fill = missing)) +
   geom_tile(color = "white") + 
-  ggtitle("datnew with NAs") +
+  ggtitle("datnew with NAs in Leading Cancer Sites") +
   scale_fill_viridis_d() + # discrete scale
   theme_bw()
 g1
 ```
-From the above plot, it can be seen that the only Leading Cancer Sites(the part of body which has cancer) is Gallbladder.
+
+From the above plot, it can be seen that the only one type of Leading Cancer Sites(the part of body which has cancer) that does not have missing value is Gallbladder, and all other types have missing values.
 
 ```{r}
 g2<-ggplot(cancers, aes(x = key, y = fct_rev(`Sex`), fill = missing)) +
   geom_tile(color = "white") + 
-  ggtitle("datnew with NAs") +
+  ggtitle("datnew with NAs in Sex") +
   scale_fill_viridis_d() + # discrete scale
   theme_bw()
 g2
 ```
 
+From the above plot, it can be seen that both male and female have missing value.
+
 ```{r}
 g3<-ggplot(cancers, aes(x = key, y = fct_rev(`Race`), fill = missing)) +
   geom_tile(color = "white") + 
-  ggtitle("datnew with NAs") +
+  ggtitle("datnew with NAs in race") +
   scale_fill_viridis_d() + # discrete scale
   theme_bw()
 g3
@@ -55,14 +62,17 @@ g3
 ```
 
 From the above plot, it can be seen that the regarding the race, only Other Races and Unknown combined has missing values.
+
 ```{r}
 g4<-ggplot(cancers, aes(x = key, y = fct_rev(`Region`), fill = missing)) +
   geom_tile(color = "white") + 
-  ggtitle("datnew with NAs") +
+  ggtitle("datnew with NAs in region") +
   scale_fill_viridis_d() + # discrete scale
   theme_bw()
 g4
 ```
+From the above region plot we can find that all types of regions have missing values.
+
 
 ```{r}
 ## Missing pattern by value

@@ -1,6 +1,7 @@
 # Results
 
-## 1.
+## Variables that have relationship with cancer incidence counts.
+Since the death count in this case is zero, we can replace these missing values by 0.
 ```{r}
 library(tidyverse)
 ##replace NAs by zeros
@@ -12,13 +13,14 @@ datrna <- dat%>%
 
 
 
-
+Since the incidence counts is a quantitative variable, we can transform this variable to several categorical groups such as “< 500”, “500 - 1000”, “1000 - 1500”, “1500 - 2000”, “>2000".
 ```{r}
 datic <- datrna %>%
   mutate(`Incidence Counts` = ifelse(`Incidence Counts`<500, "< 500", ifelse(`Incidence Counts` >= 500&`Incidence Counts`<1000, "500-1000", ifelse(`Incidence Counts` >= 1000&`Incidence Counts`<1500, "1000-1500", ifelse(`Incidence Counts` >= 1500&`Incidence Counts`<2000, "1500-2000", "> 2000")))))
 head(datic)
 ```
 
+Mosaic plot gives an overview of the data and makes it possible to recognize relationships between different variables[https://en.wikipedia.org/wiki/Mosaic_plot#:~:text=It%20gives%20an%20overview%20of,on%20by%20Friendly%20in%201994.] . Hence we can use mosaic plot to determine the variables that have strong relationship with cancer incidence counts.
 ```{r}
 attach(datic)
 library(vcd)
@@ -30,11 +32,14 @@ mosaic(ic ~ lcs, dat = datic, direction = c("v", "h"), highlighting_fill = color
        rot_labels = 0, tl_labels = FALSE)
 ```
 
+Although we cannot recognize each leading cancer site, the distribution of incidence counts varies slightly among leading cancer sites. Hence we can say the leading cancer site has effect on incidence counts.
+
 ```{r}
 mosaic(ic ~ Sex, data = datic, direction = c("v", "h"), highlighting_fill = colors,
        rot_labels = 0, tl_labels = FALSE)
 ```
 
+We can see that there is not obvious difference between female and male, so Sex does not have significant relationship with incidence counts.
 ```{r}
 datic <- datic %>%
   mutate(Race = case_when(grepl("Black",Race) ~ "Black",
@@ -45,12 +50,20 @@ datic <- datic %>%
 mosaic(ic ~ Race, data = datic, direction = c("v", "h"), highlighting_fill = colors,
        rot_labels = 0, tl_labels = FALSE)
 ```
+
+There is a noticeable trend that the distribution of incidence counts varies quite significantly. Thus, race has strong effect on incidence counts. White people have a greatest risk of cancer, and American indian people have a greatest risk of cancer.
+
 ```{r}
 mosaic(ic ~ Region, data = datic, direction = c("v", "h"), highlighting_fill = colors,
        rot_labels = 0, tl_labels = FALSE)
 ```
-Race seems to have the strongest association with Incidence counts.
 
+The distribution of incidence counts varies slightly among regions. Hence we can say the regions has weak effect on incidence counts.
+
+To summarize, race seems to have the strongest association with Incidence counts.
+
+## The relationship between gender and breast cancer.
+We aim to find a type of cancer that has largest incidence counts.
 ```{r}
 counts1 <- datrna %>%
   group_by(`Leading Cancer Sites`) %>%
@@ -58,7 +71,10 @@ counts1 <- datrna %>%
   arrange(desc(Freq))
 counts1
 ```
-### Q2.
+From the above table we can see that breast cancer has the largest incidence counts. And from a research, men had higher death rates than women across all stages of breast cancer, even after the researchers adjusted for differences in patients’ clinical characteristics, such as the type and stage of disease, treatments received, age, race/ethnicity, and access to care. [https://www.cancer.gov/news-events/cancer-currents-blog/2019/male-breast-cancer-higher-mortality#:~:text=In%20the%20study%2C%20men%20had,ethnicity%2C%20and%20access%20to%20care.]
+We want to verify this statement.
+
+Firstly, we use boxplot to see the distribution of Mortality-Incidence Age-Adjusted Rate Ratio by gender for breast cancer.
 ```{r}
 library(ggplot2)
 breast <- datic %>%
@@ -70,6 +86,9 @@ ggplot(breast, aes(Sex, `Mortality-Incidence Age-Adjusted Rate Ratio`)) +
   theme_grey(16)
 ```
 
+From the boxplot, male has higher death rates than female. And there are 4 outliers for male.
+
+Boxplots allow us to see the outliers and medians while ridgeline plots allow us to easily compare distributions of the death rate ratio.
 ```{r}
 library(ggridges)
 ggplot(breast,aes(`Mortality-Incidence Age-Adjusted Rate Ratio`, Sex)) +
@@ -77,19 +96,12 @@ ggplot(breast,aes(`Mortality-Incidence Age-Adjusted Rate Ratio`, Sex)) +
   ylab("")
 ```
 
-
-```{r}
-breastsex <- breast %>%
-  group_by(Sex, Year) %>%
-  dplyr::summarize(rate = mean(`Mortality-Incidence Age-Adjusted Rate Ratio`, na.rm = TRUE))
-ggplot(breastsex, aes(Sex, rate)) +
-  geom_col() +
-  xlab("Gender") +
-  facet_wrap(~Year)
-```
+From the above ridgeline plot, we can easily find that the mode of male is around 0.225, and the mode of female is 0 and 0.15. And the distribution of rate ratio of male is unimodal while the distribution of female is bimodal.
 
 
 
+## The change of death rate with the increasing year of diagnosis of top 12 Leading Cancer Sites.
+Firstly, we determine the 12 Leading Cancer Sites with the highest death rate. 
 ```{r}
 top_cancer <- datrna %>% 
   group_by(`Leading Cancer Sites`) %>% 
@@ -98,7 +110,6 @@ top_cancer <- datrna %>%
   pull(`Leading Cancer Sites`)
 top_cancer
 ```
-
 
 ```{r}
 library(ggrepel)
@@ -112,6 +123,7 @@ g1 = ggplot(datid, aes(mean_incidence, mean_death, label = `Leading Cancer Sites
 g1
 ```
 
+From the scatter plot, we find that although Prostate and Breast cancers have high incidence counts mean, the death counts are relatively low. But for Lung and Bronchus, Colon and Rectum cancers have high incidence counts and high death counts.
 
 ```{r}
 datrna %>%
@@ -122,10 +134,14 @@ datrna %>%
   ungroup() %>%
   ggplot(aes(rate, reorder(`Leading Cancer Sites`, rate))) +
   geom_point() +
-  ggtitle("Top 12 of Leading Cancer Sites by mean motality ratio") +
-  labs(x='mean motality ratio', y='Leading Cancer Sites') +
+  ggtitle("Top 12 of Leading Cancer Sites by mean mortality ratio") +
+  labs(x='mean mortality ratio', y='Leading Cancer Sites') +
   theme_bw()
 ```
+
+By the above cleveland dot plot, Esophagus cancer has the highest mean mortality ratio.
+
+We transform year and death rate to several categorical groups. For year, we use “1999-2002", “2002-2006”, “2006-2010”, “2010-2014”, “2014-2018", and for death rate, we break them to "Low", "Medium" and "High". 
 ```{r}
 dftop <- datrna %>%
   filter(`Leading Cancer Sites` %in% top_cancer) %>%
@@ -155,6 +171,8 @@ ggplot(dftop, aes(x = Year, y = 1, stratum = rate, alluvium = `Leading Cancer Si
   theme_bw()
 ```
 
+The alluvial diagram shows the movement of different Leading Cancer Sites and how they rank in terms of death rate over time. For example, we can see Myeloma went from the high rate in 1999-2002, then moved down to medium in 2002-2010, and moved down to low in 2010-2018. 
+
 ```{r}
 ggplot(dftop, aes(Year, `Leading Cancer Sites`,fill = rate)) +
   geom_tile(color = "white", lwd = .25) +
@@ -166,3 +184,4 @@ ggplot(dftop, aes(Year, `Leading Cancer Sites`,fill = rate)) +
   coord_fixed(ratio=0.3)
 ```
 
+The heat map allows us to easily examine how one leading cancer site changes over time For example, Stomach cancer starts off as medium death rate, moves to low death rate.
