@@ -1,3 +1,87 @@
 # Interactive component
 
+We made animation plots with two continuous variables(Incidence Counts and Death Counts) over time. We found race has greatest effect on incidence count so we fill the color by Race in the following two plots.
+```{r}
+# Plot
+library(ggplot2)
+library(gganimate)
+library(ggpubr)
+library(gapminder)
+library(gifski)
+library(plotly) 
+library(babynames)
+library(tidyverse)
+library(hrbrthemes)
+library(dplyr)
+library(purrr)
+library(tidyr)
+fig<-datrna %>%
+  plot_ly(x = ~`Incidence Counts`, y = ~`Death Counts`, size = I(30), color = ~Race, frame = ~Year, text=~`Leading Cancer Sites`, hoverinfo = "text", type = 'scatter', mode = 'markers' )  %>%
+  add_text(x = 1000, y = 1000, text = ~Year, frame = ~Year, textfont = list(size=150,color=toRGB("gray80")))
+fig<-fig %>% 
+  layout( xaxis = list( type = "log" ) ) %>%
+  layout( yaxis = list( type = "log" ) )
+fig
+```
+
+
+
+Add Animation Options
+```{r}
+fig<-fig %>%
+  animation_opts(1000, easing = "elastic", redraw = FALSE)
+fig
+```
+
+
+In the results part, we draw the static plot of mean_incidence vs mean_death, but we can not discover the trends over time. From the above plots, we can see the changes of incidence counts and death counts for each Leading Cancer Sites(colored by Race) over time. We a user put the mouse over each point, he/she can see the Leading Cancer Site and from the color, they can see the race of that point.
+
+Next, we focus on changes of death rate over time in different types of Region.
+```{r}
+breast <- datrna %>%
+  group_by(`Leading Cancer Sites`, Region, Year) %>% 
+  summarize(rate = mean(`Mortality-Incidence Age-Adjusted Rate Ratio`, na.rm = TRUE)) %>% 
+  filter(`Leading Cancer Sites` == "Breast")
+head(breast)
+```
+
+In this part, we draw three plots, the first and third one are interactive plots, the second one is dynamic plot. All of them study the same things, the difference is the formats of the plots, they can give users different experience.
+
+When user put the mouse over the lines, the year and death rate for the point will appear.
+```{r}
+breastplot1<- breast %>%
+  plot_ly(x= ~Year,y= ~rate, color= ~Region) %>%
+  add_lines()
+breastplot1
+```
+
+
+The following plot can animate automatically.
+```{r, warning=FALSE}
+g5<-breast %>%
+  ggplot( aes(x=Year, y=rate, group=Region, color=Region)) +
+    geom_line() +
+    geom_point() +
+    ggtitle("The change of death rate over time") +
+    theme_ipsum() +
+    ylab("Mean death rate") +
+    transition_reveal(Year)
+animate(g5,renderer=gifski_renderer())
+```
+
+
+When user click the Play button, the following plot can animate automatically. Moreover, when user put the mouse over the lines, the year and death rate for the point will appear.
+```{r}
+g6<-breast %>%
+  split(f = .$Year) %>%
+  accumulate(.,~bind_rows(.x,.y)) %>%
+  set_names(1999:2018) %>%
+  bind_rows(.id = "frame") %>%
+  plot_ly(x= ~Year,y= ~rate)%>%
+  add_lines(color = ~Region, frame= ~frame, ids= ~frame,alpha=1,size=I(3))
+g6
+```
+
+
+From the above plots, it can be seen that overally, northeast has lowest death rate, south has the highest death rate.
 
