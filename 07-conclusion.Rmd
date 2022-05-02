@@ -1,3 +1,11 @@
 # Conclusion
 
 In summary, firstly, we got results for the three question we raised in introduction. 
+
+For the first question, we found that Leading Cancer Sites, Race, Region have effect on incidence counts. Race has the strongest effect. White people tends to have relatively bigger risk of cancer compared with other races, American Indian or Alaska Native has relatively smaller risk of cancer. But consider there are only 826 observations for American Indian or Alaska Native, other races all have about 2000-3500 observations, thus, the samples from American Indian or Alaska Native might be not representative due to the relatively small sample size.
+
+For the second question, we found that although sex appears to have no effect on cancer incidence counts, there can be some cancers that are highly related with sex. For breast cancer, male has higher death rate than female. In addition, the percentage of female that has zero mortality-incidence ratio is much larger than that of male.
+
+For the third question, we found that most of the top 12 cancer have decreasing death rate over time except Esophagus and Pancreas. We think it is because the improvement of medical technique and people have more robust health insurance today than 20 years ago.
+
+Our study is meaningful because scientists should know which cancer has higher death rate and make more efforts to reduce the death rate of these types of cancer. For example, the death rate of Esophagus and Pancreas did not decrease in the last 20 years, which is a problem that should be noticed. Next time, we can get some data about cure rate for different cancer for different countries. We can plot the cure rate vs year plot and facet by continent.
